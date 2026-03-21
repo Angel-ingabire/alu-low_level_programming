@@ -1,4 +1,17 @@
-#include "main.h"
+nclude "main.h"
+
+/**
+ * close_fd - Closes a file descriptor and handles errors.
+ * @fd: The file descriptor to close.
+ */
+void close_fd(int fd)
+{
+	if (close(fd) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
 
 /**
  * main - Copies the content of a file to another file.
@@ -28,7 +41,7 @@ int main(int argc, char **argv)
 	if (fd_to == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		close(fd_from);
+		close_fd(fd_from);
 		exit(99);
 	}
 	while ((n_read = read(fd_from, buffer, 1024)) > 0)
@@ -45,9 +58,7 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
 		exit(98);
 	}
-	if (close(fd_from) == -1)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from), exit(100);
-	if (close(fd_to) == -1)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to), exit(100);
+	close_fd(fd_from);
+	close_fd(fd_to);
 	return (0);
 }
