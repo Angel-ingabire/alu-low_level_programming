@@ -1,4 +1,4 @@
-nclude "main.h"
+#include "main.h"
 
 /**
  * close_fd - Closes a file descriptor and handles errors.
